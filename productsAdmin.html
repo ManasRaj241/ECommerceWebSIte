@@ -64,6 +64,31 @@
         <div id="all">
             
         </div>
+
+        <button class="open-button" onclick="openForm()">Click Here To Edit Product Details</button>
+
+
+        <div class="form-popup" id="myForm">
+            <form class="form-container" id="EditForm">
+                <h1>Edit Product details</h1><br>
+
+                <select id="multiOptId">
+                </select>
+                <br><br>
+            
+                <label for="text"><b>Product Name</b></label>
+                <input type="text" placeholder="Enter Product Name" id="pNameEdit" required>
+            
+                <label for="text"><b>New Price</b></label>
+                <input type="text" placeholder="Enter Price" id="pPriceEdit" required>
+            
+                <button type="submit" class="btn">Update</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            </form>
+        </div>
+
+
+
         <div class="page-btn">
             <span>1</span>
             <span>2</span>
@@ -128,9 +153,22 @@
         }
     </script>
 
+<script src="sweetalert.min.js"></script>
+
+    <script>
+
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+        }
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+        }
+
+    </script>
+
 
     <!-- =============Search=================== -->
-    <script src="script.js"></script>
+    <script src="AdminProductsScript.js"></script>
 
 </body>
 
