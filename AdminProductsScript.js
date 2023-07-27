@@ -76,17 +76,20 @@ const arr = [
 sessionStorage.setItem('ArrayAdmin',JSON.stringify(arr));
 
 currentArray = JSON.parse(sessionStorage.getItem('ArrayAdmin'));
+const edForm = document.getElementById('EditForm');
+const pNameForEdit = document.getElementById('pNameEdit');
+const priceForEdit = document.getElementById('pPriceEdit');
+const slctopt = document.getElementById('multiOptId');
+const dltopt = document.getElementById('multiDLTId');
 var i = 0;
 function addThings(num){
     const elem = document.createElement('div');
     elem.className = "row";
     elem.id = "allRows";
     document.getElementById("all").appendChild(elem);
-    const t = add(num);  
-    
-const xyz = document.getElementById('all');
-console.log(xyz);
-    // document.getElementById("allRows").appendChild(t);
+    const t = add(num);
+    const xyz = document.getElementById('all');
+    console.log(xyz);
 }
 const whole = document.getElementById("all");
 let countArrLength = arr.length;
@@ -130,15 +133,16 @@ function add(num){
         i++;
     }
     const perticularProduct = document.getElementById('0');
-
-function prodDetailPage(e){
-    console.log("found")
-    location.href = "productDetails.html";
+    
+    function prodDetailPage(e){
+        console.log("found")
+        location.href = "productDetails.html";
+    }
+    
+    perticularProduct.addEventListener('click',prodDetailPage);
 }
 
-perticularProduct.addEventListener('click',prodDetailPage);
-}
-
+editAndDelete();
 
 const arr2 = [];
 let arr2Length = 0;
@@ -218,13 +222,13 @@ function addSearchedThings(num){
 itemInput.addEventListener('input', onInput);
 
 function onFocus(e){
-	itemInput.style.outlineStyle = 'solid';
+    itemInput.style.outlineStyle = 'solid';
 	itemInput.style.outlineWidth = '1px';
 	itemInput.style.outlineColor = `orange`;
 }
 
 function onBlur(e){
-	itemInput.style.outlineStyle = 'none';
+    itemInput.style.outlineStyle = 'none';
 }
 itemInput.addEventListener('focus', onFocus);
 itemInput.addEventListener('blur', onBlur); 
@@ -252,87 +256,84 @@ function addElemToArr(e) {
     if(sessionStorage.getItem('ArrayAdmin') != null){
         sessionStorage.removeItem('ArrayAdmin');
     }
-
+    
     sessionStorage.setItem('ArrayAdmin',JSON.stringify(currentArray));
     countArrLength = currentArray.length;
     i = 0;
     // for(j = 0; countArrLength > 0;j++,countArrLength -= 4){
         const x = addThings(0);
-    // }
-    var allInputs = submitEle.querySelectorAll('input');
-    allInputs.forEach(singleInput => singleInput.value = '');
-    const changeLastLine = submitEle.querySelector('#submitElement');
-    changeLastLine.value = "Add Element";
-}
-
-// submitEle.addEventListener('submit',onsubmit);
-submitEle.addEventListener('submit', addElemToArr)
-
-const edForm = document.getElementById('EditForm');
-const pNameForEdit = document.getElementById('pNameEdit');
-const priceForEdit = document.getElementById('pPriceEdit');
-const slctopt = document.getElementById('multiOptId');
-var optHead = document.createElement('option');
-optHead.appendChild(document.createTextNode("Select Product Id"));
-slctopt.appendChild(optHead);
-for (i = 0; i < arr.length; i++){
-    var newOpt = document.createElement('option');
-    newOpt.appendChild(document.createTextNode(`${i+1}`));
-    slctopt.appendChild(newOpt);
-}
-
-function updateForm(e) {
-    const gotId = e.target.value;
-    pNameForEdit.value = arr[gotId - 1].name;
-    priceForEdit.value = arr[gotId - 1].price;   
-}
-
-function updateArray(e) {
-    e.preventDefault();
-    const arNum = slctopt.value;
-    const newName = pNameForEdit.value;
-    currentArray[arNum - 1].name = newName;
-    const newPrice = priceForEdit.value;
-    currentArray[arNum - 1].price = newPrice;
-    console.log(arr);
-    document.getElementById("all").innerHTML = "";
-    i = 0;
-    addThings(0);
-    alert("Selected Product has been Updated");
-}
-
-slctopt.addEventListener('change', updateForm);
-edForm.addEventListener('submit', updateArray);
-
-const dltform = document.getElementById('myDLTForm');
-const dltopt = document.getElementById('multiDLTId');
-var dltHead = document.createElement('option');
-dltHead.appendChild(document.createTextNode("Select The Product Id"));
-dltopt.appendChild(dltHead);
-for (i = 0; i < arr.length; i++){
-    var newOpt = document.createElement('option');
-    newOpt.appendChild(document.createTextNode(`${i+1}`));
-    dltopt.appendChild(newOpt);
-}
-
-function deleteElementFromArray(e) {
-    e.preventDefault();
-    const toDltId = dltopt.value;
-    currentArray.splice(toDltId - 1, 1);
-    i = 0;
-    document.getElementById("all").innerHTML = "";
-
-
-    if(sessionStorage.getItem('ArrayAdmin') != null){
-        sessionStorage.removeItem('ArrayAdmin');
+        // }
+        var allInputs = submitEle.querySelectorAll('input');
+        allInputs.forEach(singleInput => singleInput.value = '');
+        const changeLastLine = submitEle.querySelector('#submitElement');
+        changeLastLine.value = "Add Element";
+    dltopt.innerHTML = "";
+    slctopt.innerHTML = "";
+    
+        editAndDelete();
+    }
+    
+    // submitEle.addEventListener('submit',onsubmit);
+    submitEle.addEventListener('submit', addElemToArr);
+    
+    
+    
+    function editAndDelete() {
+    var optHead = document.createElement('option');
+    optHead.appendChild(document.createTextNode("Select Product Id"));
+    slctopt.appendChild(optHead);
+    for (i = 0; i < currentArray.length; i++){
+        var newOpt = document.createElement('option');
+        newOpt.appendChild(document.createTextNode(`${i+1}`));
+        slctopt.appendChild(newOpt);
+    }
+    
+    function updateForm(e) {
+        const gotId = e.target.value;
+        pNameForEdit.value = arr[gotId - 1].name;
+        priceForEdit.value = arr[gotId - 1].price;   
     }
 
-    sessionStorage.setItem('ArrayAdmin',JSON.stringify(currentArray));
+    function updateArray(e) {
+        e.preventDefault();
+        const arNum = slctopt.value;
+        const newName = pNameForEdit.value;
+        currentArray[arNum - 1].name = newName;
+        const newPrice = priceForEdit.value;
+        currentArray[arNum - 1].price = newPrice;
+        console.log(arr);
+        document.getElementById("all").innerHTML = "";
+        i = 0;
+        addThings(0);
+        alert("Selected Product has been Updated");
+    }
 
+    slctopt.addEventListener('change', updateForm);
+    edForm.addEventListener('submit', updateArray);
 
-    addThings(0);
-    alert("Selected Product has been Deleted");
+    const dltform = document.getElementById('myDLTForm');
+    var dltHead = document.createElement('option');
+    dltHead.appendChild(document.createTextNode("Select The Product Id"));
+    dltopt.appendChild(dltHead);
+    for (i = 0; i < currentArray.length; i++){
+        var newOpt = document.createElement('option');
+        newOpt.appendChild(document.createTextNode(`${i+1}`));
+        dltopt.appendChild(newOpt);
+    }
 
+    function deleteElementFromArray(e) {
+        e.preventDefault();
+        const toDltId = dltopt.value;
+        currentArray.splice(toDltId - 1, 1);
+        i = 0;
+        document.getElementById("all").innerHTML = "";
+        if(sessionStorage.getItem('ArrayAdmin') != null){
+            sessionStorage.removeItem('ArrayAdmin');
+        }
+        sessionStorage.setItem('ArrayAdmin',JSON.stringify(currentArray));
+        addThings(0);
+        alert("Selected Product has been Deleted");
+    }
+
+    dltform.addEventListener('submit', deleteElementFromArray);
 }
-
-dltform.addEventListener('submit', deleteElementFromArray);
