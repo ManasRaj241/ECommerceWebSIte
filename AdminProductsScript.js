@@ -73,8 +73,9 @@ const arr = [
     }
 ];
 
-// sessionStorage.setItem('ArrayAdmin',JSON.stringify(arr));
+sessionStorage.setItem('ArrayAdmin',JSON.stringify(arr));
 
+currentArray = JSON.parse(sessionStorage.getItem('ArrayAdmin'));
 var i = 0;
 function addThings(num){
     const elem = document.createElement('div');
@@ -97,21 +98,33 @@ let countArrLength = arr.length;
 function add(num){
     while(i == 0 || i+(i*num) % 4 != 0){
         var z = i+(i * num);
-        if(z >= arr.length) break;
+        if(z > currentArray.length) break;
+        let imPath = currentArray.find(nm => nm.id === z+1);
+        if (imPath == null) {
+            i++;
+            continue;
+        }
+        let x = currentArray.find(nm => nm.id === z+1);
+        if (x == null) {
+            i++;
+            continue;
+        }
+        let r = currentArray.find(nm => nm.id === z + 1);
+        if (r == null) {
+            i++;
+            continue;
+        }
         const c = document.createElement('div');
         c.className = "col-4";
         c.id = `${z}`;
         document.getElementById("allRows").appendChild(c);
         const el = document.createElement('img');
-        let imPath = arr.find(nm => nm.id === z+1);
         el.src = imPath.imagePath;
         document.getElementById(`${z}`).appendChild(el);
         const name = document.createElement('h4'); 
-        let x = arr.find(nm => nm.id === z+1);
         name.appendChild(document.createTextNode(x.name));
         document.getElementById(`${z}`).appendChild(name);
         const price = document.createElement('p');
-        let r = arr.find(nm => nm.id === z+1);
         price.appendChild(document.createTextNode(r.price));
         document.getElementById(`${z}`).appendChild(price);
         i++;
@@ -228,15 +241,20 @@ function addElemToArr(e) {
     console.log(productName);
     const priceVal = document.getElementById('input3').value;
     console.log(priceVal);
-    arr.push({
+    currentArray.push({
         id : idValue,
         imagePath : inputForImagePath,
         name : productName,
         price : priceVal
     })   
-    console.log(arr);
+    console.log(currentArray);
     document.getElementById("all").innerHTML = "";
-    countArrLength = arr.length;
+    if(sessionStorage.getItem('ArrayAdmin') != null){
+        sessionStorage.removeItem('ArrayAdmin');
+    }
+
+    sessionStorage.setItem('ArrayAdmin',JSON.stringify(currentArray));
+    countArrLength = currentArray.length;
     i = 0;
     // for(j = 0; countArrLength > 0;j++,countArrLength -= 4){
         const x = addThings(0);
@@ -273,16 +291,48 @@ function updateArray(e) {
     e.preventDefault();
     const arNum = slctopt.value;
     const newName = pNameForEdit.value;
-    arr[arNum - 1].name = newName;
+    currentArray[arNum - 1].name = newName;
     const newPrice = priceForEdit.value;
-    arr[arNum - 1].price = newPrice;
+    currentArray[arNum - 1].price = newPrice;
     console.log(arr);
     document.getElementById("all").innerHTML = "";
     i = 0;
     addThings(0);
     alert("Selected Product has been Updated");
-    console.log(arNum +"   "+newName+"   "+newPrice);
 }
 
 slctopt.addEventListener('change', updateForm);
 edForm.addEventListener('submit', updateArray);
+
+const dltform = document.getElementById('myDLTForm');
+const dltopt = document.getElementById('multiDLTId');
+var dltHead = document.createElement('option');
+dltHead.appendChild(document.createTextNode("Select The Product Id"));
+dltopt.appendChild(dltHead);
+for (i = 0; i < arr.length; i++){
+    var newOpt = document.createElement('option');
+    newOpt.appendChild(document.createTextNode(`${i+1}`));
+    dltopt.appendChild(newOpt);
+}
+
+function deleteElementFromArray(e) {
+    e.preventDefault();
+    const toDltId = dltopt.value;
+    currentArray.splice(toDltId - 1, 1);
+    i = 0;
+    document.getElementById("all").innerHTML = "";
+
+
+    if(sessionStorage.getItem('ArrayAdmin') != null){
+        sessionStorage.removeItem('ArrayAdmin');
+    }
+
+    sessionStorage.setItem('ArrayAdmin',JSON.stringify(currentArray));
+
+
+    addThings(0);
+    alert("Selected Product has been Deleted");
+
+}
+
+dltform.addEventListener('submit', deleteElementFromArray);

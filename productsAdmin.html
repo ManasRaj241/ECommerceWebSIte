@@ -63,10 +63,17 @@
         </div>
         <div id="all">
             
+
         </div>
 
-        <button class="open-button" onclick="openForm()">Click Here To Edit Product Details</button>
-
+        <div class="row">
+            <div class="col-2"> 
+                <button class="open-button" onclick="openForm()">Click Here To Edit Product Details</button>
+            </div>
+            <div class="col-2">
+                <button class="open-button" onclick="openDLTForm()">Click Here To Delete any Product</button>
+            </div>
+        </div>
 
         <div class="form-popup" id="myForm">
             <form class="form-container" id="EditForm">
@@ -84,6 +91,19 @@
             
                 <button type="submit" class="btn">Update</button>
                 <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            </form>
+        </div>
+
+        <div class="form-popup" id="myDLTForm">
+            <form class="form-container" id="EditForm">
+                <h1>Delete Product</h1><br>
+
+                <select id="multiDLTId">
+                </select>
+                <br><br>
+            
+                <button type="submit" class="btn" style="background-color: red;">Delete</button>
+                <button type="button" class="btn cancel" onclick="closeDLTForm()" style="background-color: blue;">Close</button>
             </form>
         </div>
 
@@ -153,15 +173,19 @@
         }
     </script>
 
-<script src="sweetalert.min.js"></script>
-
     <script>
 
         function closeForm() {
             document.getElementById("myForm").style.display = "none";
         }
+        function closeDLTForm() {
+            document.getElementById("myDLTForm").style.display = "none";
+        }
         function openForm() {
             document.getElementById("myForm").style.display = "block";
+        }
+        function openDLTForm() {
+            document.getElementById("myDLTForm").style.display = "block";
         }
 
     </script>

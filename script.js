@@ -73,6 +73,8 @@ const arr = [
     }
 ];
 
+currentArray = JSON.parse(sessionStorage.getItem('ArrayAdmin'));
+
 var i = 0;
 function addThings(num){
     const elem = document.createElement('div');
@@ -95,37 +97,44 @@ for(j = 0; countArrLength > 0;j++,countArrLength -= 4){
 function add(num){
     while(i == 0 || i+(i*num) % 4 != 0){
         var z = i+(i * num);
-        if(z >= arr.length) break;
-        // console.log(z);
+        if(z > currentArray.length) break;
+        let imPath = currentArray.find(nm => nm.id === z+1);
+        if (imPath == null) {
+            i++;
+            continue;
+        }
+        let x = currentArray.find(nm => nm.id === z+1);
+        if (x == null) {
+            i++;
+            continue;
+        }
+        let r = currentArray.find(nm => nm.id === z + 1);
+        if (r == null) {
+            i++;
+            continue;
+        }
         const c = document.createElement('div');
         c.className = "col-4";
         c.id = `${z}`;
         document.getElementById("allRows").appendChild(c);
         const el = document.createElement('img');
-        let imPath = arr.find(im => im.imagePath === `images/product-${z+1}.jpg`);
-        // console.log(imPath.imagePath);
         el.src = imPath.imagePath;
         document.getElementById(`${z}`).appendChild(el);
         const name = document.createElement('h4'); 
-        let x = arr.find(nm => nm.id === z+1);
         name.appendChild(document.createTextNode(x.name));
-        // console.log(x.name);
         document.getElementById(`${z}`).appendChild(name);
         const price = document.createElement('p');
-        let r = arr.find(nm => nm.id === z+1);
         price.appendChild(document.createTextNode(r.price));
         document.getElementById(`${z}`).appendChild(price);
         i++;
     }
     const perticularProduct = document.getElementById('0');
+    function prodDetailPage(e){
+        console.log("found")
+        location.href = "productDetails.html";
+    }
 
-
-function prodDetailPage(e){
-    console.log("found")
-    location.href = "productDetails.html";
-}
-
-perticularProduct.addEventListener('click',prodDetailPage);
+    perticularProduct.addEventListener('click',prodDetailPage);
 }
 
 
@@ -217,102 +226,3 @@ function onBlur(e){
 }
 itemInput.addEventListener('focus', onFocus);
 itemInput.addEventListener('blur', onBlur);
-
-// console.log(search);
-// const admin = document.getElementById("adminAdd");
-// let flag = true;
-// function adminClick() {
-//     if (flag) {
-//         const h = document.getElementById("head");
-//         const div = document.createElement('div');
-//         const form = document.createElement('form');
-//         const label1 = document.createElement('label');
-//         label1.appendChild(document.createTextNode("Enter the Image Path : "));
-//         form.appendChild(label1);
-//         const input1 = document.createElement('input');
-//         input1.type = "text";
-//         input1.id = "input1";
-//         form.appendChild(input1);
-
-//         const label2 = document.createElement('label');
-//         label2.appendChild(document.createTextNode("Enter Name Of The Product : "));
-//         form.appendChild(label2);
-//         const input2 = document.createElement('input');
-//         input2.type = "text";
-//         input2.id = "input2";
-//         form.appendChild(input2);
-
-//         const label3 = document.createElement('label');
-//         label3.appendChild(document.createTextNode("Enter Price Of The Product : "));
-//         form.appendChild(label3);
-//         const input3 = document.createElement('input');
-//         input3.type = "text";
-//         input3.id = "input3";
-//         form.appendChild(input3);
-//         form.appendChild(sub);
-//         div.appendChild(form);
-//         h.appendChild(div);
-//         flag = false;
-
-
-
-//         // let count = arr.length;
-//         // let idValue = ++count;
-//         // const inputForImagePath = document.getElementById('input1');
-//         // inputForImagePath.addEventListener('input', onInputImagePath);
-//         // let imagePathValue = onInputImagePath();
-//         // console.log(imagePathValue);
-//         // const productName = document.getElementById('input2');
-//         // productName.addEventListener('input',onProductNameInput);
-//         // let pName = onProductNameInput();
-//         // console.log(pName);
-//         // const price = document.getElementById('input3');
-//         // price.addEventListener('input',onPriceInput);
-//         // let priceInRupees = onPriceInput();
-//         // console.log(priceInRupees);
-
-
-//     }
-// }
-// const sub = document.createElement('input');
-// sub.type = "submit";
-// sub.id = "submitElement";
-// sub.value = "Add Element";
-
-
-
-// admin.addEventListener('click', adminClick);
-
-const submitEle = document.getElementById('newElemAdd');
-console.log(submitEle)
-function addElemToArr(e) {
-    e.preventDefault();
-    let count = arr.length;
-    let idValue = ++count;
-    const inputForImagePath = document.getElementById('input1').value;
-    console.log(inputForImagePath);
-    const productName = document.getElementById('input2').value;
-    console.log(productName);
-    const priceVal = document.getElementById('input3').value;
-    console.log(priceVal);
-    arr.push({
-        id : idValue,
-        imagePath : inputForImagePath,
-        name : productName,
-        price : priceVal
-    })   
-    console.log(arr);
-    document.getElementById("all").innerHTML = "";
-    countArrLength = arr.length;
-    i = 0;
-    for(j = 0; countArrLength > 0;j++,countArrLength -= 4){
-        const x = addThings(j);
-    }
-    var allInputs = submitEle.querySelectorAll('input');
-    allInputs.forEach(singleInput => singleInput.value = '');
-    const changeLastLine = submitEle.querySelector('#submitElement');
-    changeLastLine.value = "Add Element";
-}
-
-// submitEle.addEventListener('submit',onsubmit);
-submitEle.addEventListener('submit', addElemToArr)

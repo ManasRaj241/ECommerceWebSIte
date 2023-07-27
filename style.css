@@ -251,6 +251,9 @@ small {
 
 /* Button used to open the contact form - fixed at the bottom of the page */
 .open-button {
+    display: flex;
+    margin: auto;
+    flex-basis: 50%;
   background-color: #555;
   color: white;
   padding: 16px 20px;
@@ -261,7 +264,7 @@ small {
   bottom: 23px;
   right: 40px;
   width: 280px;
-  margin-left: 380px;
+  /* margin-left: 380px; */
 }
 
 /* The popup form - hidden by default */
@@ -659,4 +662,53 @@ form a {
         display: block;
         cursor: pointer;
     }
+}
+
+
+.coupon {
+    border-radius: 1px
+}
+
+.btn.btn-out {
+    outline: 1px solid #fff;
+    outline-offset: -5px
+}
+.btn-main {
+    border-radius: 2px;
+    text-transform: capitalize;
+    font-size: 15px;
+    padding: 10px 19px;
+    cursor: pointer;
+    color: #fff;
+    width: 100%
+}
+.btn-light {
+    color: #ffffff;
+    background-color: #F44336;
+    border-color: #f8f9fa;
+    font-size: 12px
+}
+.btn-light:hover {
+color: #ffffff;
+background-color: #F44336;
+border-color: #F44336
+}
+.btn-apply {
+font-size: 11px
+}
+
+.checkout{
+    margin: auto;
+    border: 1px solid black;
+    height: 50px;
+    width: 350px;
+    font-size: larger;
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #fff;
+    display: grid;
+    background: #ff5230;
+    padding: 8px 30px;
+    border-radius: 30px;
+    transition: background 0.5s;
 }
