@@ -75,6 +75,7 @@ const arr = [
 
 sessionStorage.setItem('ArrayAdmin',JSON.stringify(arr));
 
+let deleted = false;
 currentArray = JSON.parse(sessionStorage.getItem('ArrayAdmin'));
 const edForm = document.getElementById('EditForm');
 const pNameForEdit = document.getElementById('pNameEdit');
@@ -260,24 +261,17 @@ function addElemToArr(e) {
     sessionStorage.setItem('ArrayAdmin',JSON.stringify(currentArray));
     countArrLength = currentArray.length;
     i = 0;
-    // for(j = 0; countArrLength > 0;j++,countArrLength -= 4){
-        const x = addThings(0);
-        // }
-        var allInputs = submitEle.querySelectorAll('input');
-        allInputs.forEach(singleInput => singleInput.value = '');
-        const changeLastLine = submitEle.querySelector('#submitElement');
-        changeLastLine.value = "Add Element";
+    const x = addThings(0);
+    var allInputs = submitEle.querySelectorAll('input');
+    allInputs.forEach(singleInput => singleInput.value = '');
+    const changeLastLine = submitEle.querySelector('#submitElement');
+    changeLastLine.value = "Add Element";
     dltopt.innerHTML = "";
     slctopt.innerHTML = "";
-    
         editAndDelete();
     }
     
-    // submitEle.addEventListener('submit',onsubmit);
     submitEle.addEventListener('submit', addElemToArr);
-    
-    
-    
     function editAndDelete() {
     var optHead = document.createElement('option');
     optHead.appendChild(document.createTextNode("Select Product Id"));
@@ -290,8 +284,8 @@ function addElemToArr(e) {
     
     function updateForm(e) {
         const gotId = e.target.value;
-        pNameForEdit.value = arr[gotId - 1].name;
-        priceForEdit.value = arr[gotId - 1].price;   
+        pNameForEdit.value = currentArray[gotId - 1].name;
+        priceForEdit.value = currentArray[gotId - 1].price;   
     }
 
     function updateArray(e) {
@@ -319,20 +313,26 @@ function addElemToArr(e) {
         var newOpt = document.createElement('option');
         newOpt.appendChild(document.createTextNode(`${i+1}`));
         dltopt.appendChild(newOpt);
-    }
+        }
 
     function deleteElementFromArray(e) {
         e.preventDefault();
         const toDltId = dltopt.value;
-        currentArray.splice(toDltId - 1, 1);
-        i = 0;
-        document.getElementById("all").innerHTML = "";
-        if(sessionStorage.getItem('ArrayAdmin') != null){
-            sessionStorage.removeItem('ArrayAdmin');
+        if (!deleted) {
+            currentArray.splice(toDltId - 1, 1);
+            i = 0;
+            document.getElementById("all").innerHTML = "";
+            if(sessionStorage.getItem('ArrayAdmin') != null){
+                sessionStorage.removeItem('ArrayAdmin');
+            }
+            sessionStorage.setItem('ArrayAdmin',JSON.stringify(currentArray));
+            addThings(0);
+            alert("Selected Product has been Deleted");
+            dltopt.innerHTML = "";
+            slctopt.innerHTML = "";
+            editAndDelete();
+            deleted = true;
         }
-        sessionStorage.setItem('ArrayAdmin',JSON.stringify(currentArray));
-        addThings(0);
-        alert("Selected Product has been Deleted");
     }
 
     dltform.addEventListener('submit', deleteElementFromArray);
