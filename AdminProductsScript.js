@@ -158,7 +158,7 @@ function onInput(e) {
     if (enteredValue == "") {
         clear.innerHTML = "";
     } else {
-        for (let ele of arr) {
+        for (let ele of currentArray) {
             let x = ele.name.toLocaleLowerCase();
             if (x.search(enteredValue) != -1) {
                 arr2.push(ele);
@@ -238,7 +238,7 @@ const submitEle = document.getElementById('newElemAdd');
 console.log(submitEle)
 function addElemToArr(e) {
     e.preventDefault();
-    let count = arr.length;
+    let count = currentArray.length;
     let idValue = ++count;
     const inputForImagePath = document.getElementById('input1').value;
     console.log(inputForImagePath);

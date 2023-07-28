@@ -74,6 +74,9 @@ const arr = [
 ];
 
 currentArray = JSON.parse(sessionStorage.getItem('ArrayAdmin'));
+if (currentArray == null) {
+    currentArray = arr;
+}
 
 var i = 0;
 function addThings(num){
@@ -136,7 +139,6 @@ function add(num){
 
     perticularProduct.addEventListener('click',prodDetailPage);
 }
-
 
 const arr2 = [];
 let arr2Length = 0;
