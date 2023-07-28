@@ -1,41 +1,41 @@
-const addCart = document.getElementById("AddToCart");
+const addCart = document.getElementById('AddToCart');
 
 cart = [];
 
-function changeTo(e){
-    e.preventDefault();
-    if(addCart.innerHTML == "Added"){
-        return;
-    }
-    addCart.innerHTML = "";
-    addCart.appendChild(document.createTextNode("Added"));
+function changeTo(e) {
+  e.preventDefault();
+  if (addCart.innerHTML == 'Added') {
+    return;
+  }
+  addCart.innerHTML = '';
+  addCart.appendChild(document.createTextNode('Added'));
 
-    const det = document.getElementById("details");
+  const det = document.getElementById('details');
 
-    const nameOfProduct = det.querySelector('h1').innerHTML;
-    console.log(nameOfProduct);
+  const nameOfProduct = det.querySelector('h1').innerHTML;
+  console.log(nameOfProduct);
 
-    const priceOfProduct = det.querySelector('h4').innerHTML;
-    console.log(priceOfProduct.replace(',',''));
-    
-    const qty = det.querySelector('input').value;
-    console.log(qty);
+  const priceOfProduct = det.querySelector('h4').innerHTML;
+  console.log(priceOfProduct.replace(',', ''));
 
-    let fprice = qty * priceOfProduct.replace(',','');
-    console.log(fprice);
+  const qty = det.querySelector('input').value;
+  console.log(qty);
 
-    cart[cart.length] = {
-        image : "images/buy-1.jpg",
-        name : nameOfProduct,
-        quantity : qty, 
-        price : fprice
-    }
+  let fprice = qty * priceOfProduct.replace(',', '');
+  console.log(fprice);
 
-    if(sessionStorage.getItem('Array') != null){
-        sessionStorage.removeItem('Array');
-    }
+  cart[cart.length] = {
+    image: 'images/buy-1.jpg',
+    name: nameOfProduct,
+    quantity: qty,
+    price: fprice,
+  };
 
-    sessionStorage.setItem('Array',JSON.stringify(cart));
+  if (sessionStorage.getItem('Array') != null) {
+    sessionStorage.removeItem('Array');
+  }
+
+  sessionStorage.setItem('Array', JSON.stringify(cart));
 }
 
-addCart.addEventListener('click',changeTo);
+addCart.addEventListener('click', changeTo);
